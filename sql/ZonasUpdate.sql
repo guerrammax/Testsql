@@ -33,6 +33,7 @@ BEGIN
 
 	WHEN NOT MATCHED BY TARGET THEN
 
+
 	INSERT(
 		nZonaPK,
 		nPaisPK,
