@@ -3,7 +3,7 @@
 -- Create date:	 06/11/2015 
 -- Description: procedimiento para manejo de catalogos en TTCentral
 -- =============================================
-CREATE PROCEDURE [dbo].[CatTiposProductoInsert] 
+ALTER PROCEDURE [dbo].[CatTiposProductoInsert] 
 	@nTipoProductoPK numeric(18,0)= NULL OUTPUT,
 	@cMessage varchar(500) = NULL OUTPUT,
 	@cClave varchar(3) ,
@@ -22,15 +22,16 @@ BEGIN
 	DECLARE @Verifica INT = 0
 	SELECT @Verifica = COUNT(*) FROM CatTiposProducto WHERE cClave = @cClave
 	IF @Verifica > 0
-	BEGIN				
+	BEGIN	
+		/* SE COMENTA ESTA PARTE PARA EVITAR QUE SE EDITE UN PRODUCTO DADO DE BAJA			
 		SELECT @Verifica = COUNT(*) FROM CatTiposProducto WHERE cClave = @cClave and dBaja is not null
 		if(@Verifica>0)
 		BEGIN
 			--DECLARE @TablePK TABLE(PK NUMERIC(18,0))
 			UPDATE CatTiposProducto
 			set cDescripcion=@cDescripcion,
-				bLocked=@bLocked,
-				dbaja=null				
+				bLocked=@bLocked--,
+				--dbaja=null				
 			--OUTPUT inserted.nTipoProductoPK INTO @TablePK
 			where cClave=@cClave			
 			
@@ -66,8 +67,9 @@ BEGIN
 				
 		END
 		ELSE
+		*/
 		BEGIN
-			SET @cMessage = 'La clave ya se encuentra asignada a otro elemento.'
+			SET @cMessage = 'La clave ya se encuentra asignada a otro elemento. Verifique en bajas si no se muestra en la lista'
 			RETURN
 		END		
 	END
