@@ -32,6 +32,7 @@ DROP TABLE #localidadesZona
 
 
 --==================================================================
+--*****************************************************************
 --PARTE II ACTUALIZAMOS REGISTROS
 GO
 DECLARE
@@ -53,8 +54,8 @@ CREATE TABLE #TEMP(
 )
 --INSERTAMOS DATOS A TEMP
 
-INSERT INTO #TEMP VALUES( 1,9,1,'Mexico',1,'Nayarit',1,'Tepic',10,'VISTAHER')
-INSERT INTO #TEMP VALUES( 0,9,1,'Mexico',1,'Nayarit',1,'Tepic',11,'bien')
+INSERT INTO #TEMP VALUES( 1,9,1,'Mexico',1,'Nayarit',1,'Tepic',7,'VISTAHERMOSA')
+INSERT INTO #TEMP VALUES( 0,9,1,'Mexico',1,'Nayarit',1,'Tepic',12,'SUPERbien')
 
 
 SELECT COUNT(*)  FROM #TEMP 
@@ -68,12 +69,12 @@ SELECT COUNT(*) FROM ZonaDet WHERE nZonaPK =9
 --ACTUALIZA LAS LOCALIDADES
 
 --SI VIENE UN NUEVO REGISTRO
-	IF exists(select 1 from #TEMP where ZonaDetPK = 0)
+	--IF exists(select 1 from #TEMP where ZonaDetPK = 0)
 	      
 		insert into ZonaDet select ZonaPK,PaisPK,EstadoPK,MunicipioPK,LocalidadPK   from #TEMP where ZonaDetPK=0
 
 --SI LOS MISMOS REGISTRO  
-	ELSE
+	--ELSE
 		 UPDATE ZonaDet 
 			SET nPaisPK = #TEMP.PaisPK,
 				nEstadoPK = #TEMP.EstadoPK,
@@ -81,9 +82,14 @@ SELECT COUNT(*) FROM ZonaDet WHERE nZonaPK =9
 				nLocalidadPK=#TEMP.LocalidadPK 		  
 			FROM #TEMP WHERE nZonaDetPK=ZonaDetPK
 	
-	SELECT * FROM #TEMP
-	SELECT * FROM ZonaDet where nZonaPK=9
+	     SELECT * FROM #TEMP T
+		 RIGHT JOIN ZonaDet ZT ON T.ZonaDetPK=nZonaDetPK WHERE nZonaPK=9
+		 
 
+	SELECT * FROM #TEMP
+	SELECT * FROM ZonaDet-- where nZonaPK=9
+	SELECT * FROM #TEMP T
+	INNER JOIN ZonaDet ZD ON T.ZonaPK=ZD.nZonaPK WHERE T.ZonaPK=9 
 
 
 DROP TABLE #TEMP	
@@ -97,6 +103,3 @@ SELECT * FROM ZonaDet
 	
 	select * from ZonaDet where nZonaPK=9
 	
-
-	SELECT * FROM #TEMP
-	SELECT * FROM ZonaDet
