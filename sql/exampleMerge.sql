@@ -19,7 +19,7 @@ AS
 BEGIN
     SET NOCOUNT ON
  
-    --Se actualizan los registros en la tabla
+    --Se actualizan los registros en la tabla que se diseño para pruebas
     UPDATE tablaPrueba
        SET nombre = @nombre,
            fecha_actualizacion = GETDATE()
